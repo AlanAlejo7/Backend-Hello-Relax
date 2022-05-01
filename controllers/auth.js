@@ -16,7 +16,7 @@ const crearUsuario = async (req, res = response) => {
         const existeEmail = await Usuario.findOne({email});
 
         if (existeEmail){
-            return res.status(00).jason({
+            return res.status(400).jason({
                ok: false,
                msg: 'El correo ya está registrado' 
             });
@@ -38,7 +38,7 @@ const crearUsuario = async (req, res = response) => {
             token
         });
 
-    } catch {
+    } catch (error) {
         console.log(error);
         res.status(500).json({
             ok: false,
