@@ -212,3 +212,44 @@ Sub CompararCoincidencias()
 
 End Sub
 
+
+
+
+Sub CopyHospitalNames()
+    Dim ws As Worksheet
+    Dim idRange As Range
+    Dim hospitalRange As Range
+    Dim resultRange As Range
+    Dim idCell As Range
+    Dim hospitalCell As Range
+    Dim resultCell As Range
+    
+    ' Establece la hoja de trabajo
+    Set ws = ThisWorkbook.Sheets("NombreDeTuHoja")
+    
+    ' Define el rango de IDs y hospitales
+    Set idRange = ws.Range("F2:F603")
+    Set hospitalRange = ws.Range("G2:G603")
+    
+    ' Define el rango donde se copiarán los nombres
+    Set resultRange = ws.Range("P2:P603")
+    
+    ' Inicializa el contador de fila para los resultados
+    Dim resultRow As Long
+    resultRow = 2
+    
+    ' Recorre los IDs y verifica los hospitales correspondientes
+    For Each idCell In idRange
+        Set hospitalCell = hospitalRange.Cells(idCell.Row - idRange.Cells(1).Row + 1)
+        Set resultCell = resultRange.Cells(resultRow)
+        
+        If idCell.Value = "PENDIENTE" Or idCell.Value = "NO ENCONTRADO" Then
+            resultCell.Value = hospitalCell.Value
+            resultRow = resultRow + 1
+        Else
+            resultCell.ClearContents
+        End If
+    Next idCell
+End Sub
+
+
